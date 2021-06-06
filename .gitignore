@@ -13,5 +13,4 @@ package-lock.json
 *.ntvs*
 *.njsproj
 *.sln
-config/dev.env.js
-src/api/config.js
+
