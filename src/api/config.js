@@ -1,6 +1,5 @@
 const eduBaseUrl = "http://localhost:8001";
 const ossBaseUrl = "http://localhost:8002";
-const aliyunOss =""
 const config ={
     //edu
     loginUrl :eduBaseUrl+"/edu/teacher/user/login",
@@ -12,8 +11,7 @@ const config ={
     getTeacher: eduBaseUrl+"/edu/teacher/getTeacher",
     //oss
     ossUpload:ossBaseUrl+"/oss/upload",
-
-   aliyunOss:aliyunOss
+    excelUpload:eduBaseUrl+"/edu/subject/upload"
     
 
 } 
