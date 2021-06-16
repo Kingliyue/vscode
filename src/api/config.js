@@ -10,7 +10,8 @@ const config ={
     updateTeacher: eduBaseUrl+"/edu/teacher/updateTeacher",
     getTeacher: eduBaseUrl+"/edu/teacher/getTeacher",
     //oss
-    ossUpload:ossBaseUrl+"/oss/upload"
+    ossUpload:ossBaseUrl+"/oss/upload",
+    excelUpload:eduBaseUrl+"/edu/subject/upload"
     
 
 } 
