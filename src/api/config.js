@@ -11,8 +11,9 @@ const config ={
     getTeacher: eduBaseUrl+"/edu/teacher/getTeacher",
     //oss
     ossUpload:ossBaseUrl+"/oss/upload",
-    excelUpload:eduBaseUrl+"/edu/subject/upload"
-    
+    excelUpload:eduBaseUrl+"/edu/subject/upload",
+    //subject
+    subjectList:eduBaseUrl+'/edu/subject/list'
 
 } 
 export default config
