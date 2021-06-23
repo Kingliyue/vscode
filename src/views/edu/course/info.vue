@@ -7,10 +7,85 @@
       <el-step title="提交审核"/>
     </el-steps>
     <el-form label-width="120px">
-      <el-form-item>
-        <el-button :disabled="saveBtnDisabled" type="primary" @click="next">保存并下一步</el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item label="课程标题">
+            <el-input v-model="courseInfo.title" placeholder=" 示例：机器学习项目课：从基础到搭建项目视频课程。专业名称注意大小写"/>
+        </el-form-item>
+
+        <!-- 所属分类 TODO -->
+        <el-form-item label="课程分类">
+            <el-select
+                v-model="courseInfo.subjectParentId"
+                placeholder="一级分类" @change="subjectLevelOneChanged">
+
+                <el-option
+                    v-for="subject in subjectOneList"
+                    :key="subject.id"
+                    :label="subject.title"
+                    :value="subject.id"/>
+
+            </el-select>
+
+            <!-- 二级分类 -->
+            <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+                <el-option
+                    v-for="subject in subjectTwoList"
+                    :key="subject.id"
+                    :label="subject.title"
+                    :value="subject.id"/>
+            </el-select>
+        </el-form-item>
+
+
+        <!-- 课程讲师 TODO -->
+        <!-- 课程讲师 -->
+        <el-form-item label="课程讲师">
+        <el-select
+            v-model="courseInfo.teacherId"
+            placeholder="请选择">
+
+            <el-option
+                v-for="teacher in teacherList"
+                :key="teacher.id"
+                :label="teacher.name"
+                :value="teacher.id"/>
+
+        </el-select>
+        </el-form-item>
+
+        <el-form-item label="总课时">
+            <el-input-number :min="0" v-model="courseInfo.lessonNum" controls-position="right" placeholder="请填写课程的总课时数"/>
+        </el-form-item>
+
+        <!-- 课程简介 TODO -->
+        <el-form-item label="课程简介">
+            <el-input v-model="courseInfo.description" placeholder=" "/>
+        </el-form-item>
+
+
+        <!-- 课程封面 TODO -->
+        <!-- 课程封面-->
+        <el-form-item label="课程封面">
+
+            <el-upload
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+                :action="BASE_API+'/eduoss/fileoss'"
+                class="avatar-uploader">
+                <img :src="courseInfo.cover">
+            </el-upload>
+
+        </el-form-item>
+
+        <el-form-item label="课程价格">
+            <el-input-number :min="0" v-model="courseInfo.price" controls-position="right" placeholder="免费课程请设置为0元"/> 元
+        </el-form-item>
+
+        <el-form-item>
+            <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate">保存并下一步</el-button>
+        </el-form-item>
+        </el-form>
+    
   </div>
 </template>
 
@@ -18,7 +93,18 @@
 export default {
   data() {
     return {
-      saveBtnDisabled: false // 保存按钮是否禁用
+      saveBtnDisabled: false ,// 保存按钮是否禁用
+      courseInfo:{
+       title: '',
+                subjectId: '',//二级分类id
+                subjectParentId:'',//一级分类id
+                teacherId: '',
+                lessonNum: 0,
+                description: '',
+                cover: '/static/01.jpg',
+                price: 0
+
+      }
     }
   },
   created() {
