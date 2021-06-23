@@ -62,7 +62,7 @@ export const constantRouterMap = [
     path: '/edu/subject',
     component: Layout,
     name: '课程分类管理',
-    meta: { title: '课程管理', icon: 'example' },
+    meta: { title: '课程分类管理', icon: 'example' },
     children: [
       {
         path: 'list',
