@@ -9,12 +9,14 @@ const config ={
     addTeacher: eduBaseUrl+" /edu/teacher/addTeacher",
     updateTeacher: eduBaseUrl+"/edu/teacher/updateTeacher",
     getTeacher: eduBaseUrl+"/edu/teacher/getTeacher",
+    getTeacherList: eduBaseUrl+"/edu/teacher/list",
     //oss
     ossUpload:ossBaseUrl+"/oss/upload",
-    excelUpload:eduBaseUrl+"/edu/subject/upload",
+    
     //subject
-    subjectList:eduBaseUrl+'/edu/subject/list'
-
+    subjectList:eduBaseUrl+'/edu/subject/list',
+    //course
+    addCourse:eduBaseUrl+'/edu/course/addCourse'
 } 
 export default config
 

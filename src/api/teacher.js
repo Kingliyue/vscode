@@ -22,3 +22,7 @@ export const updateTeacher = updateTeacher => {
       console.log(updateTeacher);
   return http.put(baseURL.updateTeacher, updateTeacher);
 };
+export const getTeacherList = ()=>{
+  return http.get(baseURL.getTeacherList);
+
+}
