@@ -70,7 +70,7 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
-                :action="BASE_API+'/eduoss/fileoss'"
+                :action="BASE_API"
                 class="avatar-uploader">
                 <img :src="courseInfo.cover">
             </el-upload>
@@ -90,9 +90,13 @@
 </template>
 
 <script>
+import BaseUrl from '@/api/config' 
+import {getTeacherList }from '@/api/teacher'
+
 export default {
   data() {
     return {
+      BASE_API: BaseUrl.ossUpload,
       saveBtnDisabled: false ,// 保存按钮是否禁用
       courseInfo:{
        title: '',
@@ -108,13 +112,24 @@ export default {
     }
   },
   created() {
+    this.getTeacher()
     console.log('info created')
   },
   methods: {
+  beforeAvatarUpload(){},
+  handleAvatarSuccess(){},
+  subjectLevelOneChanged(){},
+  
+  getTeacher(){
+    getTeacherList().then(res=>{
+      this.teacherList
+    })
+  },
     next() {
       console.log('next')
       this.$router.push({ path: '/edu/course/chapter/1' })
     }
-  }
+  },
+  saveOrUpdate(){}
 }
 </script>

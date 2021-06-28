@@ -37,7 +37,7 @@ import BaseUrl from '@/api/config'
 export default {
   data() {
     return {
-       BASE_API: BaseUrl.excelUpload, // 接口API地址
+       BASE_API: BaseUrl.ossUpload, // 接口API地址
       // OSS_PATH: process.env.OSS_PATH, // 阿里云OSS地址
         fileUploadBtnText: '上传到服务器', // 按钮文字
         importBtnDisabled: false, // 按钮是否禁用,
