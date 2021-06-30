@@ -14,7 +14,7 @@
     <el-form label-width="120px">
       <el-form-item label="课程标题">
         <el-input
-          v-model="courseInfo.title"
+          v-model="courseVo.title"
           placeholder=" 示例：机器学习项目课：从基础到搭建项目视频课程。专业名称注意大小写"
         />
       </el-form-item>
@@ -22,7 +22,7 @@
       <!-- 所属分类 TODO -->
       <el-form-item label="课程分类">
         <el-select
-          v-model="courseInfo.subjectParentId"
+          v-model="courseVo.subjectParentId"
           placeholder="一级分类"
           @change="subjectLevelOneChanged"
         >
@@ -35,7 +35,7 @@
         </el-select>
 
         <!-- 二级分类 -->
-        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+        <el-select v-model="courseVo.subjectId" placeholder="二级分类">
           <el-option
             v-for="subject in subjectTwoList"
             :key="subject.id"
@@ -48,7 +48,7 @@
       <!-- 课程讲师 TODO -->
       <!-- 课程讲师 -->
       <el-form-item label="课程讲师">
-        <el-select v-model="courseInfo.teacherId" placeholder="请选择">
+        <el-select v-model="courseVo.teacherId" placeholder="请选择">
           <el-option
             v-for="teacher in teacherList"
             :key="teacher.id"
@@ -61,7 +61,7 @@
       <el-form-item label="总课时">
         <el-input-number
           :min="0"
-          v-model="courseInfo.lessonNum"
+          v-model="courseVo.lessonNum"
           controls-position="right"
           placeholder="请填写课程的总课时数"
         />
@@ -69,7 +69,7 @@
 
       <!-- 课程简介 TODO -->
       <el-form-item label="课程简介">
-        <el-input v-model="courseInfo.description" placeholder=" " />
+        <el-input v-model="courseVo.description" placeholder=" " />
       </el-form-item>
 
       <!-- 课程封面 TODO -->
@@ -82,14 +82,14 @@
           :action="BASE_API"
           class="avatar-uploader"
         >
-          <img :src="courseInfo.cover" />
+          <img :src="courseVo.cover" />
         </el-upload>
       </el-form-item>
 
       <el-form-item label="课程价格">
         <el-input-number
           :min="0"
-          v-model="courseInfo.price"
+          v-model="courseVo.price"
           controls-position="right"
           placeholder="免费课程请设置为0元"
         />
@@ -112,14 +112,14 @@
 import BaseUrl from "@/api/config";
 import { getTeacherList } from "@/api/teacher";
 import { getSubject } from "@/api/subject";
-import { saveCourse } from "@/api/course";
+import { saveCourse,getCouse} from "@/api/course";
 
 export default {
   data() {
     return {
       BASE_API: BaseUrl.ossUpload,
       saveBtnDisabled: false, // 保存按钮是否禁用
-      courseInfo: {
+      courseVo: {
         title: "",
         subjectId: "", //二级分类id
         subjectParentId: "", //一级分类id
@@ -134,14 +134,42 @@ export default {
       subjectTwoList: [],
     };
   },
+  watch:{
+       $route(to, from) {
+          this.init();
+    },
+  },
   created() {
     this.getTeacher(), this.getSubjectList();
     console.log("info created");
   },
   methods: {
-    beforeAvatarUpload() {},
-    handleAvatarSuccess() {},
-    subjectLevelOneChanged() {},
+    //初始化路由离得值
+    init(){
+      if(this.$router.param && this.$router.param.id){
+        let courseId = this.$router.param.id
+        getCousre(courseId).then(res=>{
+            this.courseVo =res.data.courseVo
+        })
+      }
+    },
+    //上传封面格式大小设定
+    beforeAvatarUpload(file) {
+      let types = ['image/jpeg', 'image/jpg', 'image/png'];
+      const isImage = types.includes(file.type)
+      const isLtSize = file.size / 1024 / 1024 < 5;
+      if (!isImage) {
+        this.$message.error('上传图片只能是 JPG、JPEG、PNG 格式!');
+      }
+       
+       if (!isLtSize) {
+          this.$message.error('上传图片大小不能超过 5MB!');
+       }
+      return isImage&& isImage
+    },
+    handleAvatarSuccess(data){
+
+    },
     //获取讲师列表
     getTeacher() {
       getTeacherList().then((res) => {
@@ -161,22 +189,27 @@ export default {
         if (this.subjectOneList[i].id === value) {
           this.subjectTwoList = this.subjectOneList[i].children;
 
-          this.courseInfo.subjectId = "";
+          this.courseVo.subjectId = "";
         }
       }
     },
-    next() {
-      console.log("next");
-      this.$router.push({ path: "/edu/course/chapter/1" });
-    },
-    saveOrUpdate() {
-      saveCourse(this.courseInfo).then((res) => {
+    //新增课程基本信息
+    save(){
+       saveCourse(this.courseVo).then((res) => {
         this.$message({
           type: "success",
           message: "添加课程信息成功!",
         });
          this.$router.push({ path: "/edu/course/chapter/"+res.data.courseId });
       });
+    },
+
+    saveOrUpdate() {
+      if(this.$router.param && this.$router.param.id){
+
+      }else{
+        this.save();
+      }
     },
   },
 };

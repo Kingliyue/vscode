@@ -109,14 +109,14 @@ export const constantRouterMap = [
         name: 'EduCourseChapterEdit',
         component: () => import('@/views/edu/course/chapter'),
         meta: { title: '编辑课程大纲', noCache: true },
-        hidden: true
+        //hidden: true
       },
       {
         path: 'publish/:id',
         name: 'EduCoursePublishEdit',
         component: () => import('@/views/edu/course/publish'),
         meta: { title: '发布课程', noCache: true },
-        hidden: true
+        //hidden: true
       }
     ]
   },

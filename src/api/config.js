@@ -16,7 +16,8 @@ const config ={
     //subject
     subjectList:eduBaseUrl+'/edu/subject/list',
     //course
-    addCourse:eduBaseUrl+'/edu/course/addCourse'
+    addCourse:eduBaseUrl+'/edu/course/addCourse',
+    getCourse:eduBaseUrl+'/edu/course/getCourse'
 } 
 export default config
 
