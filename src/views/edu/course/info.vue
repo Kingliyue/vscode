@@ -14,7 +14,7 @@
     <el-form label-width="120px">
       <el-form-item label="课程标题">
         <el-input
-          v-model="courseInfo.title"
+          v-model="courseVo.title"
           placeholder=" 示例：机器学习项目课：从基础到搭建项目视频课程。专业名称注意大小写"
         />
       </el-form-item>
@@ -22,7 +22,7 @@
       <!-- 所属分类 TODO -->
       <el-form-item label="课程分类">
         <el-select
-          v-model="courseInfo.subjectParentId"
+          v-model="courseVo.subjectParentId"
           placeholder="一级分类"
           @change="subjectLevelOneChanged"
         >
@@ -35,7 +35,7 @@
         </el-select>
 
         <!-- 二级分类 -->
-        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+        <el-select v-model="courseVo.subjectId" placeholder="二级分类">
           <el-option
             v-for="subject in subjectTwoList"
             :key="subject.id"
@@ -48,7 +48,7 @@
       <!-- 课程讲师 TODO -->
       <!-- 课程讲师 -->
       <el-form-item label="课程讲师">
-        <el-select v-model="courseInfo.teacherId" placeholder="请选择">
+        <el-select v-model="courseVo.teacherId" placeholder="请选择">
           <el-option
             v-for="teacher in teacherList"
             :key="teacher.id"
@@ -61,7 +61,7 @@
       <el-form-item label="总课时">
         <el-input-number
           :min="0"
-          v-model="courseInfo.lessonNum"
+          v-model="courseVo.lessonNum"
           controls-position="right"
           placeholder="请填写课程的总课时数"
         />
@@ -69,7 +69,7 @@
 
       <!-- 课程简介 TODO -->
       <el-form-item label="课程简介">
-        <el-input v-model="courseInfo.description" placeholder=" " />
+        <el-input v-model="courseVo.description" placeholder=" " />
       </el-form-item>
 
       <!-- 课程封面 TODO -->
@@ -82,14 +82,14 @@
           :action="BASE_API"
           class="avatar-uploader"
         >
-          <img :src="courseInfo.cover" />
+          <img :src="courseVo.cover" />
         </el-upload>
       </el-form-item>
 
       <el-form-item label="课程价格">
         <el-input-number
           :min="0"
-          v-model="courseInfo.price"
+          v-model="courseVo.price"
           controls-position="right"
           placeholder="免费课程请设置为0元"
         />
@@ -119,7 +119,7 @@ export default {
     return {
       BASE_API: BaseUrl.ossUpload,
       saveBtnDisabled: false, // 保存按钮是否禁用
-      courseInfo: {
+      courseVo: {
         title: "",
         subjectId: "", //二级分类id
         subjectParentId: "", //一级分类id
@@ -161,7 +161,7 @@ export default {
         if (this.subjectOneList[i].id === value) {
           this.subjectTwoList = this.subjectOneList[i].children;
 
-          this.courseInfo.subjectId = "";
+          this.courseVo.subjectId = "";
         }
       }
     },
@@ -170,7 +170,7 @@ export default {
       this.$router.push({ path: "/edu/course/chapter/1" });
     },
     saveOrUpdate() {
-      saveCourse(this.courseInfo).then((res) => {
+      saveCourse(this.courseVo).then((res) => {
         this.$message({
           type: "success",
           message: "添加课程信息成功!",
