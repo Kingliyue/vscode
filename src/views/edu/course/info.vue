@@ -193,9 +193,14 @@ export default {
         }
       }
     },
-    //新增课程基本信息
-    save(){
-       saveCourse(this.courseVo).then((res) => {
+
+    next() {
+      console.log("next");
+      this.$router.push({ path: "/edu/course/chapter/1" });
+    },
+    saveOrUpdate() {
+      saveCourse(this.courseVo).then((res) => {
+
         this.$message({
           type: "success",
           message: "添加课程信息成功!",
@@ -203,14 +208,5 @@ export default {
          this.$router.push({ path: "/edu/course/chapter/"+res.data.courseId });
       });
     },
-
-    saveOrUpdate() {
-      if(this.$router.param && this.$router.param.id){
-
-      }else{
-        this.save();
-      }
-    },
-  },
-};
+  }}
 </script>
