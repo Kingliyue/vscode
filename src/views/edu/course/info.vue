@@ -112,7 +112,7 @@
 import BaseUrl from "@/api/config";
 import { getTeacherList } from "@/api/teacher";
 import { getSubject } from "@/api/subject";
-import { saveCourse,getCouse} from "@/api/course";
+import { saveCourse, getCourse } from "@/api/course";
 
 export default {
   data() {
@@ -134,46 +134,46 @@ export default {
       subjectTwoList: [],
     };
   },
-  watch:{
-       $route(to, from) {
-          this.init();
+  watch: {
+    $route(to, from) {
+      this.init();
     },
   },
   created() {
-    this.getTeacher(), this.getSubjectList();
-    console.log("info created");
+    //老师列表
+    this.getTeacher(),
+     //课程全部列表信息
+     this.getSubjectList();
+   
   },
   methods: {
     //初始化路由离得值
-    init(){
-      if(this.$router.param && this.$router.param.id){
-        let courseId = this.$router.param.id
-        getCousre(courseId).then(res=>{
-            this.courseVo =res.data.courseVo
-        })
+    init() {
+      if (this.$router.param && this.$router.param.id) {
+        let courseId = this.$router.param.id;
+        getCourse(courseId).then((res) => {
+          this.courseVo = res.data.courseVo;
+        });
       }
     },
     //上传封面格式大小设定
     beforeAvatarUpload(file) {
-      let types = ['image/jpeg', 'image/jpg', 'image/png'];
-      const isImage = types.includes(file.type)
+      let types = ["image/jpeg", "image/jpg", "image/png"];
+      const isImage = types.includes(file.type);
       const isLtSize = file.size / 1024 / 1024 < 5;
       if (!isImage) {
-        this.$message.error('上传图片只能是 JPG、JPEG、PNG 格式!');
+        this.$message.error("上传图片只能是 JPG、JPEG、PNG 格式!");
       }
-       
-       if (!isLtSize) {
-          this.$message.error('上传图片大小不能超过 5MB!');
-       }
-      return isImage&& isImage
-    },
-    handleAvatarSuccess(data){
 
+      if (!isLtSize) {
+        this.$message.error("上传图片大小不能超过 5MB!");
+      }
+      return isImage && isImage;
     },
+    handleAvatarSuccess(data) {},
     //获取讲师列表
     getTeacher() {
       getTeacherList().then((res) => {
-        console.log(res);
         this.teacherList = res.data.item;
       });
     },
@@ -188,25 +188,21 @@ export default {
       for (let i = 0; i < this.subjectOneList.length; i++) {
         if (this.subjectOneList[i].id === value) {
           this.subjectTwoList = this.subjectOneList[i].children;
-
           this.courseVo.subjectId = "";
         }
       }
     },
 
-    next() {
-      console.log("next");
-      this.$router.push({ path: "/edu/course/chapter/1" });
-    },
+    //保存或者修改课程信息
     saveOrUpdate() {
       saveCourse(this.courseVo).then((res) => {
-
         this.$message({
           type: "success",
           message: "添加课程信息成功!",
         });
-         this.$router.push({ path: "/edu/course/chapter/"+res.data.courseId });
+        this.$router.push({ path: "/edu/course/chapter/" + res.data.courseId });
       });
     },
-  }}
+  },
+};
 </script>

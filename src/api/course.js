@@ -6,6 +6,5 @@ export const saveCourse = (CourseInfo)=>{
 }
 //根据课程ID获取
 export const getCourse =(CourseId)=>{
-
     return http.get(baseUrl.getCourse,CourseId)
 }
