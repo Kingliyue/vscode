@@ -1,3 +1,5 @@
+
+
 const eduBaseUrl = "http://localhost:8001";
 const ossBaseUrl = "http://localhost:8002";
 const config ={
@@ -17,7 +19,9 @@ const config ={
     subjectList:eduBaseUrl+'/edu/subject/list',
     //course
     addCourse:eduBaseUrl+'/edu/course/addCourse',
-    getCourse:eduBaseUrl+'/edu/course/getCourse'
+    getCourse:eduBaseUrl+'/edu/course/getCourse',
+    //chapter
+    getChapterUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo'
 } 
 export default config
 
