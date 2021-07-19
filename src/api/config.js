@@ -20,7 +20,7 @@ const config ={
     //course
     addCourse:eduBaseUrl+'/edu/course/addCourse',
     getCourse:eduBaseUrl+'/edu/course/getCourse/',
-    updateCourse:eduBaseUrl+'edu/course/update',
+    updateCourse:eduBaseUrl+'/edu/course/update',
     //chapter
     getChapterUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo'
 } 

@@ -47,7 +47,7 @@
 
       <!-- 课程讲师 TODO -->
       <!-- 课程讲师 -->
-      <el-form-item label="课程讲师">
+      <el-form-item label="课程讲师" prop="teacherList">
         <el-select v-model="courseVo.teacherId" placeholder="请选择">
           <el-option
             v-for="teacher in teacherList"
@@ -69,7 +69,7 @@
 
       <!-- 课程简介 TODO -->
       <el-form-item label="课程简介">
-        <el-input v-model="courseVo.description" placeholder=" " />
+        <el-input v-model="courseVo.description" placeholder=" 课程简介" />
       </el-form-item>
 
       <!-- 课程封面 TODO -->
@@ -112,8 +112,7 @@
 import BaseUrl from "@/api/config";
 import { getTeacherList } from "@/api/teacher";
 import { getSubject } from "@/api/subject";
-import { saveCourse, getCourse ,updateCourse} from "@/api/course";
-
+import { saveCourse, getCourse, updateCourse } from "@/api/course";
 
 export default {
   data() {
@@ -130,9 +129,10 @@ export default {
         cover: "/static/01.jpg",
         price: 0,
       },
-      teacherList: [],
+
       subjectOneList: [],
       subjectTwoList: [],
+      teacherList: [],
     };
   },
   watch: {
@@ -141,23 +141,22 @@ export default {
     },
   },
   created() {
-    //老师列表
-    this.getTeacher(),
-      //课程全部列表信息
-      this.getSubjectList(),
-      //初始化信息
-      this.init();
+    //初始化信息
+    this.init();
   },
   methods: {
     //初始化路由离得值
     init() {
+      //老师列表
+      //课程全部列表信息
+      this.getSubjectList();
+      this.getTeacher();
+
       if (this.$route.params && this.$route.params.id) {
-         this.courseId = this.$route.params.id;
-        console.log(this.courseId)
+          this.courseId = this.$route.params.id;
         getCourse(this.courseId).then((res) => {
-        
           this.courseVo = res.data.courseVo;
-          console.log(this.courseVo)
+          this.subjectLevelOneChanged(this.courseVo.subjectParentId);
         });
       }
     },
@@ -179,7 +178,8 @@ export default {
     //获取讲师列表
     getTeacher() {
       getTeacherList().then((res) => {
-        this.teacherList = res.data.item;
+        this.teacherList = res.data.list;
+        console.log(this.teacherList);
       });
     },
     //获取课程列表
@@ -193,11 +193,14 @@ export default {
       for (let i = 0; i < this.subjectOneList.length; i++) {
         if (this.subjectOneList[i].id === value) {
           this.subjectTwoList = this.subjectOneList[i].children;
-          this.courseVo.subjectId = "";
+          if (!this.courseId) {
+            this.courseVo.subjectId = "";
+          }
         }
       }
     },
     save() {
+      console.log(this.courseVo);
       saveCourse(this.courseVo).then((res) => {
         this.$message({
           type: "success",
@@ -206,21 +209,22 @@ export default {
         this.$router.push({ path: "/edu/course/chapter/" + res.data.courseId });
       });
     },
-    update(){
-          updateCourse(courseVo).then(res=>{
-              this.$message({
+    update() {
+      
+      updateCourse(this.courseVo).then((res) => {
+        this.$message({
           type: "success",
           message: "修改课程信息成功!",
         });
-          })
-
+        this.$router.push({ path: "/edu/course/chapter/" + this.courseId });
+      });
     },
     //保存或者修改课程信息
     saveOrUpdate() {
-      if(this.courseId){
-        this.update()
-      }else{
-        this.save()
+      if (this.courseId) {
+        this.update();
+      } else {
+        this.save();
       }
     },
   },

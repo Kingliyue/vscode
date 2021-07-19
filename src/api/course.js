@@ -12,5 +12,5 @@ export const getCourse =(CourseId)=>{
 }
 //根据courseID更新课程信息
 export const  updateCourse = (CourseVo)=>{
-    return http.update(baseUrl.updateCourse,CourseVo)
+    return http.put(baseUrl.updateCourse,CourseVo)
 }
