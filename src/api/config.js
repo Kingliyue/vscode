@@ -19,7 +19,8 @@ const config ={
     subjectList:eduBaseUrl+'/edu/subject/list',
     //course
     addCourse:eduBaseUrl+'/edu/course/addCourse',
-    getCourse:eduBaseUrl+'/edu/course/getCourse',
+    getCourse:eduBaseUrl+'/edu/course/getCourse/',
+    updateCourse:eduBaseUrl+'edu/course/update',
     //chapter
     getChapterUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo'
 } 

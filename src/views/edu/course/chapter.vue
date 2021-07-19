@@ -143,18 +143,19 @@ export default {
            } 
     },
     created() {
-
+      this.inint()
     },
     methods:{
         inint(){
-          if (this.$router.param && this.$router.param.id) {
-             
-               this.courseId = this.$router.param.id;
+          console.log("初始化")
+          if (this.$route.params && this.$route.params.id) {
+               this.courseId = this.$route.params.id;
                console.log(this.courseId);
             }
         },
         //取消
         previous() {
+
              console.log(this.courseId);
              this.$router.push({path:'/edu/course/info/'+this.courseId})
             

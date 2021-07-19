@@ -112,7 +112,8 @@
 import BaseUrl from "@/api/config";
 import { getTeacherList } from "@/api/teacher";
 import { getSubject } from "@/api/subject";
-import { saveCourse, getCourse } from "@/api/course";
+import { saveCourse, getCourse ,updateCourse} from "@/api/course";
+
 
 export default {
   data() {
@@ -142,17 +143,21 @@ export default {
   created() {
     //老师列表
     this.getTeacher(),
-     //课程全部列表信息
-     this.getSubjectList();
-   
+      //课程全部列表信息
+      this.getSubjectList(),
+      //初始化信息
+      this.init();
   },
   methods: {
     //初始化路由离得值
     init() {
-      if (this.$router.param && this.$router.param.id) {
-        let courseId = this.$router.param.id;
-        getCourse(courseId).then((res) => {
+      if (this.$route.params && this.$route.params.id) {
+         this.courseId = this.$route.params.id;
+        console.log(this.courseId)
+        getCourse(this.courseId).then((res) => {
+        
           this.courseVo = res.data.courseVo;
+          console.log(this.courseVo)
         });
       }
     },
@@ -192,9 +197,7 @@ export default {
         }
       }
     },
-
-    //保存或者修改课程信息
-    saveOrUpdate() {
+    save() {
       saveCourse(this.courseVo).then((res) => {
         this.$message({
           type: "success",
@@ -202,6 +205,23 @@ export default {
         });
         this.$router.push({ path: "/edu/course/chapter/" + res.data.courseId });
       });
+    },
+    update(){
+          updateCourse(courseVo).then(res=>{
+              this.$message({
+          type: "success",
+          message: "修改课程信息成功!",
+        });
+          })
+
+    },
+    //保存或者修改课程信息
+    saveOrUpdate() {
+      if(this.courseId){
+        this.update()
+      }else{
+        this.save()
+      }
     },
   },
 };
