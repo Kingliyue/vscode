@@ -14,7 +14,6 @@
     </el-steps>
 
     <el-button type="text" @click="openChapterDialog()">添加章节</el-button>
-
     <!-- 章节 -->
     <ul class="chanpterList">
       <li v-for="chapter in chapterVideoList" :key="chapter.id">
@@ -114,6 +113,8 @@
   </div>
 </template>
 <script>
+import {saveChapter} from '@/api/chapter'
+
 export default {
     data() {
         return {
@@ -165,7 +166,21 @@ export default {
             //跳转到第二步
             this.$router.push({path:'/edu/course/publish/1'})
         },
-        openChapterDialog(){},
+        //添加章节的弹窗
+        openChapterDialog(){
+          //属性为true 打开弹窗
+          this.dialogChapterFormVisible=true
+        },
+        //保存
+        saveChapterInfo(){
+          saveChapter(this.chapter).then(res =>{
+              this.$message({
+                type:"success",
+                message:"添加成功"
+              })
+          })
+        },
+        
         saveOrUpdate(){},
         saveOrUpdateVideo(){},
 
