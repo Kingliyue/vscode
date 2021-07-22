@@ -156,7 +156,6 @@ export default {
         },
         //取消
         previous() {
-
              console.log(this.courseId);
              this.$router.push({path:'/edu/course/info/'+this.courseId})
             
@@ -164,7 +163,7 @@ export default {
         },
         next() {
             //跳转到第二步
-            this.$router.push({path:'/edu/course/publish/1'})
+            this.$router.push({path:'/edu/course/publish/'+this.courseId})
         },
         //添加章节的弹窗
         openChapterDialog(){

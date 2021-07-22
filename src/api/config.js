@@ -23,7 +23,8 @@ const config ={
     updateCourse:eduBaseUrl+'/edu/course/update',
     //chapter
     getChapterUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo',
-    addChapter:eduBaseUrl+'/edu/chapter/saveChapter'
+    addChapter:eduBaseUrl+'/edu/chapter/saveChapter',
+    getChapter:
 
 } 
 export default config
