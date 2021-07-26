@@ -113,76 +113,93 @@
   </div>
 </template>
 <script>
-import {saveChapter} from '@/api/chapter'
+import { saveChapter, getChapterList,deleteChapter } from "@/api/chapter";
 
 export default {
     data() {
-        return {
-          
-            saveBtnDisabled:false,
-            courseId:'',//课程id
-            chapterVideoList:[],
-            chapter:{ //封装章节数据
-                title: '',
-                sort: 0
-            },
-            video: {
-                title: '',
-                sort: 0,
-                free: 0,
-                videoSourceId: ''
-            },
-            dialogChapterFormVisible:false,//章节弹框
-            dialogVideoFormVisible:false ,//小节弹框
-            saveVideoBtnDisabled:false
-        
-        }
+      return {
+        saveBtnDisabled: false,
+        courseId: "", //课程id
+        chapterVideoList: [],
+        chapter: {
+          //封装章节数据
+          title: "",
+          sort: 0,
+        },
+        video: {
+          title: "",
+          sort: 0,
+          free: 0,
+          videoSourceId: "",
+        },
+        dialogChapterFormVisible: false, //章节弹框
+        dialogVideoFormVisible: false, //小节弹框
+        saveVideoBtnDisabled: false,
+      };
     },
-    watch:{
-           $route(to,from){
-             this.inint()
-           } 
+    watch: {
+      $route(to, from) {
+        this.inint();
+      },
     },
     created() {
-      this.inint()
+      this.inint();
     },
-    methods:{
-        inint(){
-          console.log("初始化")
-          if (this.$route.params && this.$route.params.id) {
-               this.courseId = this.$route.params.id;
-               console.log(this.courseId);
-            }
-        },
-        //取消
-        previous() {
-             console.log(this.courseId);
-             this.$router.push({path:'/edu/course/info/'+this.courseId})
-            
-            
-        },
-        next() {
-            //跳转到第二步
-            this.$router.push({path:'/edu/course/publish/'+this.courseId})
-        },
-        //添加章节的弹窗
-        openChapterDialog(){
-          //属性为true 打开弹窗
-          this.dialogChapterFormVisible=true
-        },
-        //保存
-        saveChapterInfo(){
-          saveChapter(this.chapter).then(res =>{
-              this.$message({
-                type:"success",
-                message:"添加成功"
-              })
-          })
-        },
-        
-        saveOrUpdate(){},
-        saveOrUpdateVideo(){},
-
-    }
-}
+    methods: {
+      inint() {
+        console.log("初始化");
+        if (this.$route.params && this.$route.params.id) {
+          this.courseId = this.$route.params.id;
+           this.getChapterListInfo();
+        }
+      },
+      //取消
+      previous() {
+        console.log(this.courseId);
+        this.$router.push({ path: "/edu/course/info/" + this.courseId });
+      },
+      next() {
+        //跳转到第二步
+        this.$router.push({ path: "/edu/course/publish/" + this.courseId });
+      },
+      //添加章节的弹窗
+      openChapterDialog() {
+        //属性为true 打开弹窗
+        this.dialogChapterFormVisible = true;
+      },
+      //保存
+      saveChapterInfo() {
+        console.log(this.chapter);
+        this.chapter.courseId = this.courseId;
+        saveChapter(this.chapter).then((res) => {
+          this.$message({
+            type: "success",
+            message: "添加成功",
+          });
+          //关闭弹窗
+          this.dialogChapterFormVisible = false;
+          this.getChapterListInfo();
+        });
+      },
+      getChapterListInfo() {
+        console.log(this.courseId);
+        getChapterList(this.courseId).then((res) => {
+          this.chapterVideoList = res.data.list;
+        });
+      },
+      removeChapter(){
+        console.log(this.chapter.id);
+         deleteChapter(this.id).then(res =>{
+           this.$message({
+            type: "success",
+            message: "删除成功",
+          });
+         })
+      },
+      saveOrUpdate() {
+        this.saveChapterInfo();
+      },
+      saveOrUpdateVideo() {},
+    },
+};
 </script>

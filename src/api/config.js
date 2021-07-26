@@ -22,9 +22,11 @@ const config ={
     getCourse:eduBaseUrl+'/edu/course/getCourse/',
     updateCourse:eduBaseUrl+'/edu/course/update',
     //chapter
-    getChapterUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo',
+    getChapterListUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo/',
     addChapter:eduBaseUrl+'/edu/chapter/saveChapter',
-    getChapter:
+    getChapter:eduBaseUrl+'/edu/chapter/getChapter/',
+    updateChapter:eduBaseUrl+'/edu/chapter/updateChapter',
+    deleteChapter:eduBaseUrl+'/edu/chapter/deleteChapter/'
 
 } 
 export default config
