@@ -120,7 +120,7 @@ import {
   updateChapter,
   getChapter
 } from "@/api/chapter";
-
+import {saveVideo,getVideo,updateVideo,deleteVideo} from '@/api/video'
 export default {
   data() {
     return {
@@ -234,12 +234,28 @@ export default {
       }
     },
     //添加小节
-    openVideo(){
+    openVideo(id){
       //打开小节的窗口
       this.dialogVideoFormVisible =true
-      
+      this.video.chapterId = id
     },
-    saveOrUpdateVideo() {}
+    //保存小节
+    saveVideoInfo(){
+        this.video.courseId = this.courseId
+        console.log(this.video.courseId);
+        
+        console.log(  this.video.chapterId);
+        saveVideo(this.video).then(res =>{
+          this.$message({
+            type:'success',
+            message:'保存成功'
+          })
+        })
+        this.dialogChapterFormVisible = false
+    },
+    saveOrUpdateVideo() {
+      this.saveVideoInfo()
+    }
   }
 };
 </script>
