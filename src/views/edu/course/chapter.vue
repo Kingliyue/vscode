@@ -113,93 +113,133 @@
   </div>
 </template>
 <script>
-import { saveChapter, getChapterList,deleteChapter } from "@/api/chapter";
+import {
+  saveChapter,
+  getChapterList,
+  deleteChapter,
+  updateChapter,
+  getChapter
+} from "@/api/chapter";
 
 export default {
-    data() {
-      return {
-        saveBtnDisabled: false,
-        courseId: "", //课程id
-        chapterVideoList: [],
-        chapter: {
-          //封装章节数据
-          title: "",
-          sort: 0,
-        },
-        video: {
-          title: "",
-          sort: 0,
-          free: 0,
-          videoSourceId: "",
-        },
-        dialogChapterFormVisible: false, //章节弹框
-        dialogVideoFormVisible: false, //小节弹框
-        saveVideoBtnDisabled: false,
-      };
-    },
-    watch: {
-      $route(to, from) {
-        this.inint();
+  data() {
+    return {
+      saveBtnDisabled: false,
+      courseId: "", //课程id
+      chapterVideoList: [],
+      chapter: {
+        //封装章节数据
+        title: "",
+        sort: 0
       },
-    },
-    created() {
+      video: {
+        title: "",
+        sort: 0,
+        free: 0,
+        videoSourceId: ""
+      },
+      dialogChapterFormVisible: false, //章节弹框
+      dialogVideoFormVisible: false, //小节弹框
+      saveVideoBtnDisabled: false
+    };
+  },
+  watch: {
+    $route(to, from) {
       this.inint();
+    }
+  },
+  created() {
+    this.inint();
+  },
+  methods: {
+    inint() {
+      console.log("初始化");
+      if (this.$route.params && this.$route.params.id) {
+        this.courseId = this.$route.params.id;
+        this.getChapterListInfo();
+      }
     },
-    methods: {
-      inint() {
-        console.log("初始化");
-        if (this.$route.params && this.$route.params.id) {
-          this.courseId = this.$route.params.id;
-           this.getChapterListInfo();
-        }
-      },
-      //取消
-      previous() {
-        console.log(this.courseId);
-        this.$router.push({ path: "/edu/course/info/" + this.courseId });
-      },
-      next() {
-        //跳转到第二步
-        this.$router.push({ path: "/edu/course/publish/" + this.courseId });
-      },
-      //添加章节的弹窗
-      openChapterDialog() {
-        //属性为true 打开弹窗
-        this.dialogChapterFormVisible = true;
-      },
-      //保存
-      saveChapterInfo() {
-        console.log(this.chapter);
-        this.chapter.courseId = this.courseId;
-        saveChapter(this.chapter).then((res) => {
-          this.$message({
-            type: "success",
-            message: "添加成功",
-          });
-          //关闭弹窗
-          this.dialogChapterFormVisible = false;
-          this.getChapterListInfo();
+    //取消
+    previous() {
+      console.log(this.courseId);
+      this.$router.push({ path: "/edu/course/info/" + this.courseId });
+    },
+    next() {
+      //跳转到第二步
+      this.$router.push({ path: "/edu/course/publish/" + this.courseId });
+    },
+    //添加章节的弹窗
+    openChapterDialog() {
+      //属性为true 打开弹窗
+      this.dialogChapterFormVisible = true;
+      this.chapter.title = "";
+      this.chapter.sort = 0;
+    },
+    //保存章节
+    saveChapterInfo() {
+      this.chapter.courseId = this.courseId;
+      saveChapter(this.chapter).then(res => {
+        this.$message({
+          type: "success",
+          message: "添加成功"
         });
-      },
-      getChapterListInfo() {
-        console.log(this.courseId);
-        getChapterList(this.courseId).then((res) => {
-          this.chapterVideoList = res.data.list;
+        //关闭弹窗
+        this.dialogChapterFormVisible = false;
+        this.getChapterListInfo();
+        this.chapter.title = "";
+        this.chapter.sort = 0;
+      });
+    },
+    //获取章节和视频信息
+    getChapterListInfo() {
+      getChapterList(this.courseId).then(res => {
+        this.chapterVideoList = res.data.list;
+      });
+    },
+    //移除章节
+    removeChapter(id) {
+      deleteChapter(id).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功"
         });
-      },
-      removeChapter(){
-        console.log(this.chapter.id);
-         deleteChapter(this.id).then(res =>{
-           this.$message({
-            type: "success",
-            message: "删除成功",
-          });
-         })
-      },
-      saveOrUpdate() {
+        this.getChapterListInfo();
+      });
+    },
+    //编辑章节
+    openEditChatper(id) {
+      this.chapter.id = id;
+      this.dialogChapterFormVisible = true;
+      getChapter(id).then(res => {
+        this.chapter = res.data.chapter;
+      });
+    },
+    //更新章节
+    updateChapterInfo() {
+      updateChapter(this.chapter).then(res => {
+        this.$message({
+          type: "success",
+          message: "修改成功"
+        });
+        this.getChapterListInfo();
+        this.dialogChapterFormVisible = false;
+      });
+    },
+    //保存或者修改章节
+    saveOrUpdate() {
+      if (this.chapter.id) {
+        this.updateChapterInfo();
+      } else {
         this.saveChapterInfo();
-      },
-      saveOrUpdateVideo() {},
+      }
     },
+    //添加小节
+    openVideo(){
+      //打开小节的窗口
+      this.dialogVideoFormVisible =true
+      
+    },
+    saveOrUpdateVideo() {}
+  }
 };
 </script>
