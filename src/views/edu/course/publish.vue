@@ -11,7 +11,16 @@
     </el-steps>
 
     <el-form label-width="120px">
-
+      <div class="ccInfo">
+      <img :src="coursePublish.cover">
+      <div class="main">
+        <h2>{{ coursePublish.title }}</h2>
+        <p class="gray"><span>共{{ coursePublish.lessonNum }}课时</span></p>
+        <p><span>所属分类：{{ coursePublish.subjectLevelOne }} — {{ coursePublish.subjectLevelTwo }}</span></p>
+        <p>课程讲师：{{ coursePublish.teacherName }}</p>
+        <h3 class="red">￥{{ coursePublish.price }}</h3>
+      </div>
+    </div>
       <el-form-item>
         <el-button @click="previous">返回修改</el-button>
         <el-button :disabled="saveBtnDisabled" type="primary" @click="publish">发布课程</el-button>
@@ -25,18 +34,32 @@
 export default {
   data() {
     return {
-      saveBtnDisabled: false // 保存按钮是否禁用
+      saveBtnDisabled: false ,// 保存按钮是否禁用
+      courseId:'',
+      coursePublis:{}
     }
   },
+  watch:{
+      $route(to,from) {
+        this.init();
+      },
 
+  },
   created() {
     console.log('publish created')
   },
 
   methods: {
+    //初始化方法
+    init(){
+      if(this.$route.params && this.$route.params.id){
+        this.courseId =this.$route.params.id
+      }
+
+    },
     previous() {
-      console.log('previous')
-      this.$router.push({ path: '/edu/course/chapter/1' })
+
+      this.$router.push({ path: '/edu/course/chapter/' +this.courseId})
     },
 
     publish() {

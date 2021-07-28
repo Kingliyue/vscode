@@ -35,12 +35,12 @@
 
         <!-- 视频 -->
         <ul class="chanpterList videoList">
-          <li v-for="video in chapter.children" :key="video.id">
+          <li v-for="video in chapter.childVideo" :key="video.id">
             <p>
               {{ video.title }}
 
               <span class="acts">
-                <el-button style="" type="text">编辑</el-button>
+                <el-button style="" type="text" @click="editVideo(video.id)">编辑</el-button>
                 <el-button type="text" @click="removeVideo(video.id)"
                   >删除</el-button
                 >
@@ -91,9 +91,9 @@
           />
         </el-form-item>
         <el-form-item label="是否免费">
-          <el-radio-group v-model="video.free">
-            <el-radio :label="true">免费</el-radio>
-            <el-radio :label="false">默认</el-radio>
+          <el-radio-group v-model="video.isFree">
+            <el-radio :label="1">免费</el-radio>
+            <el-radio :label="0">默认</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上传视频">
@@ -135,7 +135,7 @@ export default {
       video: {
         title: "",
         sort: 0,
-        free: 0,
+        isFree: 0,
         videoSourceId: ""
       },
       dialogChapterFormVisible: false, //章节弹框
@@ -223,7 +223,9 @@ export default {
         });
         this.getChapterListInfo();
         this.dialogChapterFormVisible = false;
+        this.video ={}
       });
+      
     },
     //保存或者修改章节
     saveOrUpdate() {
@@ -242,19 +244,56 @@ export default {
     //保存小节
     saveVideoInfo(){
         this.video.courseId = this.courseId
-        console.log(this.video.courseId);
-        
-        console.log(  this.video.chapterId);
         saveVideo(this.video).then(res =>{
           this.$message({
             type:'success',
             message:'保存成功'
           })
+           this.dialogVideoFormVisible =false
+           this.chapter.title = "";
+           this.chapter.sort = 0;
+            this.getChapterListInfo()
+             this.video ={}
         })
-        this.dialogChapterFormVisible = false
+         
+    },
+    //编辑小节
+    editVideo(id){
+      this.dialogVideoFormVisible =true
+      this.video.id = id
+      getVideo(id).then(res=>{
+        this.video=res.data.video
+        console.log(this.video);
+      })
+    },
+    //删除小节
+    removeVideo(id){
+      deleteVideo(id).then(res =>{
+          this.$message({
+            type:'success',
+            message:'删除成功'
+
+          })
+          this.getChapterListInfo()
+      })
+    },
+    //更新小节
+    updateVideoInfo(){
+      updateVideo(this.video.id).then(res=>{
+            this.$message({
+            type:'success',
+            message:'更新成功'
+          })
+           this.dialogVideoFormVisible =false
+           this.getChapterListInfo()
+      })
     },
     saveOrUpdateVideo() {
+      if(this.video.id){
+        this.updateVideoInfo()
+      }else{
       this.saveVideoInfo()
+     }
     }
   }
 };
