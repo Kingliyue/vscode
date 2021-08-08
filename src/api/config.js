@@ -22,6 +22,10 @@ const config ={
     addCourse:eduBaseUrl+'/edu/course/addCourse',
     getCourse:eduBaseUrl+'/edu/course/getCourse/',
     updateCourse:eduBaseUrl+'/edu/course/update',
+    getCourseList:eduBaseUrl+'/edu/course/getCourseList/',
+    //publish
+    getCourseInfo:eduBaseUrl + '/edu/course/getCourseInfo/',
+    updateCoursePublish:eduBaseUrl+ '/edu/course/updateStatus/',
     //chapter
     getChapterListUrl: eduBaseUrl+'/edu/chapter/getChapterAndVideo/',
     addChapter:eduBaseUrl+'/edu/chapter/saveChapter',
@@ -33,6 +37,7 @@ const config ={
     saveVideoUrl:eduBaseUrl+'/edu/video/saveVideo',
     updateVideoUrl:eduBaseUrl+'/edu/video/updateVideo',
     deleteVideoUrl:eduBaseUrl+'/edu/video/deleteVideo/',
+
 } 
 export default config
 

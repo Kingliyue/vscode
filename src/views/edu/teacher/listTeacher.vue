@@ -149,7 +149,6 @@ export default {
     //清空
     clean(){
       this.queryTeacher ={},
-
       this.getListTeacher()
     }
   },

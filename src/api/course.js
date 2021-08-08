@@ -14,3 +14,8 @@ export const getCourse =(CourseId)=>{
 export const  updateCourse = (CourseVo)=>{
     return http.put(baseUrl.updateCourse,CourseVo)
 }
+
+export const getCourseList = (page,limit,CourseVo) =>{
+    let url = baseUrl.getCourseList+`${page}`+"/"+`${limit}`
+    return http.get(url,CourseVo)
+}
