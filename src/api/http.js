@@ -14,7 +14,7 @@ const http = {
       method: "post",
       url: url
     };
-    if (params) config.data = qs.stringify(params);
+    if (params) config.data = params;
     return request(config);
   },
   put(url, params) {
@@ -22,7 +22,7 @@ const http = {
       method: "put",
       url: url
     };
-    if (params) config.data = qs.stringify(params);
+    if (params) config.data = params;
     console.log(config.data);
     return request(config);
   },

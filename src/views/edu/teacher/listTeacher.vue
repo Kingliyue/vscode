@@ -18,15 +18,20 @@
       <el-form-item label="创建时间">
         <el-col :span="11">
           <el-date-picker
-            type="date"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
             placeholder="选择日期"
             v-model="queryTeacher.gmtCreate"
             style="width: 100%"
           ></el-date-picker>
         </el-col>
-        <el-col class="line" :span="2">-</el-col>
+        <el-col class="line" :span="2">——</el-col>
         <el-col :span="11">
           <el-date-picker
+            type="datetime"
+             value-format="yyyy-MM-dd HH:mm:ss"
+             default-time="23:59:59"
             placeholder="选择日期"
             v-model="queryTeacher.gmtModified"
             style="width: 100%"
@@ -97,6 +102,9 @@ export default {
   methods: {
     indexmethod() {
       return 1 * 1;
+    },
+    dateChange(val){
+      console.log(val);
     },
     getListTeacher(page = 1) {
       this.page = page;

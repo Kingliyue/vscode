@@ -1,4 +1,4 @@
-import http from '@/utils/request'
+import http from './http'
 import baseUrl from '@/api/config'
 
 //保存课程基本信息
