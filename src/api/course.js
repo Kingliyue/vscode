@@ -19,3 +19,7 @@ export const getCourseList = (page,limit,courseQuery) =>{
     let url = baseUrl.getCourseList+`${page}`+"/"+`${limit}`
     return http.post(url,courseQuery)
 }
+export const deleteCourse=(CourseId) =>{
+    let url =baseUrl.deleteCourse+`${CourseId}`
+    return http.delete(url)
+}

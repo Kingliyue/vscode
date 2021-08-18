@@ -178,6 +178,7 @@ export default {
     //获取讲师列表
     getTeacher() {
       getTeacherList().then((res) => {
+        console.log(res.data.list);
         this.teacherList = res.data.list;
         console.log(this.teacherList);
       });
@@ -185,7 +186,7 @@ export default {
     //获取课程列表
     getSubjectList() {
       getSubject().then((res) => {
-        this.subjectOneList = res.data.list;
+        this.subjectOneList = res.data.subjectList;
       });
     },
     //课程级联选择

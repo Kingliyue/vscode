@@ -23,6 +23,7 @@ const config ={
     getCourse:eduBaseUrl+'/edu/course/getCourse/',
     updateCourse:eduBaseUrl+'/edu/course/update',
     getCourseList:eduBaseUrl+'/edu/course/getCourseList/',
+    deleteCourse:eduBaseUrl+'/edu/course/deleteCourse/',
     //publish
     getCourseInfo:eduBaseUrl + '/edu/course/getCourseInfo/',
     updateCoursePublish:eduBaseUrl+ '/edu/course/updateStatus/',

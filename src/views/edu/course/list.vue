@@ -77,7 +77,7 @@
 <script>
 //引入调用teacher.js文件
 
-import {getCourseList} from '@/api/course'
+import {getCourseList,deleteCourse} from '@/api/course'
 export default {
     //写核心代码位置
     // data:{
@@ -113,6 +113,16 @@ export default {
             this.courseQuery = {}
             //查询所有讲师数据
             this.getList()
+        },
+           removeDataById(id){
+          deleteCourse(id).then(res =>{
+            this.$message({
+              type:'success',
+              message:'删除成功'
+            })
+            this.getList()
+          })
+          
         }
  
     }
