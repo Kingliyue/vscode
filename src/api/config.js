@@ -3,6 +3,7 @@
 
 const eduBaseUrl = "http://localhost:8001";
 const ossBaseUrl = "http://localhost:8002";
+const vodBaseUrl = "http://localhost:8003";
 const config ={
     //edu
     loginUrl :eduBaseUrl+"/edu/teacher/user/login",
@@ -38,6 +39,8 @@ const config ={
     saveVideoUrl:eduBaseUrl+'/edu/video/saveVideo',
     updateVideoUrl:eduBaseUrl+'/edu/video/updateVideo',
     deleteVideoUrl:eduBaseUrl+'/edu/video/deleteVideo/',
+
+    uploadVideoUrl:vodBaseUrl+'/edu/vod/videoUpload'
 
 } 
 export default config

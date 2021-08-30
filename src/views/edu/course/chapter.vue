@@ -97,7 +97,25 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上传视频">
-          <!-- TODO -->
+          <el-upload
+            :on-success="handleVodUploadSuccess"
+            :on-remove="handleVodRemove"
+            :before-remove="beforeVodRemove"
+            :on-exceed="handleUploadExceed"
+            :file-list="fileList"
+            :action="BASE_API"
+            :limit="1"
+            class="upload-demo">
+        <el-button size="small" type="primary">上传视频</el-button>
+        <el-tooltip placement="right-end">
+            <div slot="content">最大支持1G，<br>
+                支持3GP、ASF、AVI、DAT、DV、FLV、F4V、<br>
+                GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、<br>
+                MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、<br>
+                SWF、TS、VOB、WMV、WEBM 等视频格式上传</div>
+            <i class="el-icon-question"/>
+        </el-tooltip>
+        </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -113,6 +131,7 @@
   </div>
 </template>
 <script>
+import BaseUrl from "@/api/config";
 import {
   saveChapter,
   getChapterList,
@@ -120,10 +139,12 @@ import {
   updateChapter,
   getChapter
 } from "@/api/chapter";
-import {saveVideo,getVideo,updateVideo,deleteVideo} from '@/api/video'
+import {saveVideo,getVideo,updateVideo,deleteVideo} from '@/api/video';
 export default {
   data() {
     return {
+      BASE_API: BaseUrl.uploadVideoUrl,
+      fileList:[],
       saveBtnDisabled: false,
       courseId: "", //课程id
       chapterVideoList: [],
@@ -152,6 +173,18 @@ export default {
     this.inint();
   },
   methods: {
+    handleVodUploadSuccess(response,file,flleList){
+       this.videoId  =  response.data.videoId
+    },
+    handleVodRemove(file,fileList){
+        this.$message({
+          type:'warning',
+          message:"您确定要删除吗"   
+        })
+
+    },
+    handleUploadExceed(){},
+    beforeVodRemove(){},
     inint() {
       console.log("初始化");
       if (this.$route.params && this.$route.params.id) {

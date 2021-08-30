@@ -41,7 +41,7 @@ export default {
       getSubject().then(res=>{
         console.log()
         console.log(res.data.list)
-        this.data2=res.data.list
+        this.data2=res.data.subjectList
 
       })
     },
