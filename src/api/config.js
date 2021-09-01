@@ -40,7 +40,9 @@ const config ={
     updateVideoUrl:eduBaseUrl+'/edu/video/updateVideo',
     deleteVideoUrl:eduBaseUrl+'/edu/video/deleteVideo/',
 
-    uploadVideoUrl:vodBaseUrl+'/edu/vod/videoUpload'
+    uploadVideoUrl:vodBaseUrl+'/edu/vod/videoUpload',
+    deleteVodUrl:vodBaseUrl+'/edu/vod/delete/'
+
 
 } 
 export default config

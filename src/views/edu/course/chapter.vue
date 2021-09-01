@@ -139,7 +139,7 @@ import {
   updateChapter,
   getChapter
 } from "@/api/chapter";
-import {saveVideo,getVideo,updateVideo,deleteVideo} from '@/api/video';
+import {saveVideo,getVideo,updateVideo,deleteVideo,deleteVod} from '@/api/video';
 export default {
   data() {
     return {
@@ -174,17 +174,28 @@ export default {
   },
   methods: {
     handleVodUploadSuccess(response,file,flleList){
-       this.videoId  =  response.data.videoId
+       this.video.videoSourceId =  response.data.videoId
+       this.video.videoOriginalName = file.name
     },
+    //删除上传文件
     handleVodRemove(file,fileList){
-        this.$message({
-          type:'warning',
-          message:"您确定要删除吗"   
-        })
-
+       deleteVod(this.video.videoSourceId).then(res=>{
+         this.$message({
+           type:'success',
+           message:'删除成功'
+         })
+       })
     },
-    handleUploadExceed(){},
-    beforeVodRemove(){},
+    handleUploadExceed(){
+      
+    },
+    //点击x的时候弹出
+    beforeVodRemove(){
+
+     return this.$confirm(
+          "您确定要删除吗"   
+        )
+    },
     inint() {
       console.log("初始化");
       if (this.$route.params && this.$route.params.id) {
@@ -307,6 +318,7 @@ export default {
             message:'删除成功'
 
           })
+          this.video =''
           this.getChapterListInfo()
       })
     },
@@ -319,6 +331,7 @@ export default {
           })
            this.dialogVideoFormVisible =false
            this.getChapterListInfo()
+           this.video =''
       })
     },
     saveOrUpdateVideo() {
