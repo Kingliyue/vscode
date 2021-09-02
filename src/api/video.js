@@ -18,6 +18,7 @@ export const deleteVideo = videoId =>{
     return http.delete(url)
 } 
 export const deleteVod = videoSourceId=>{
-    let url =baseUrl.deleteVod+`${videoSourceId}`
+    let url =baseUrl.deleteVodUrl+`${videoSourceId}`
+    console.log(url);
     return http.delete(url)
 }
