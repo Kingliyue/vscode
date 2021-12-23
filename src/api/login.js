@@ -1,22 +1,40 @@
-import http from './http' 
-import baseURL from './config'
+import request from '@/utils/request'
 
-export const login=(username,password) =>{
-    let user ={username,password}
-
-return http.post(baseURL.loginUrl,user)
-}
-
-export const getInfo=(token) =>{
-
-  let url =baseURL.infoUrl+`/${token}`
-  return http.get(url,null,null)
-
-}
-
-export const logout=()=> {
+// 登录
+export function login(username, password) {
+ // debugger
   return request({
-    url: '/user/logout',
+    url: '/admin/acl/login',
+    method: 'post',
+    data: {
+      username,
+      password
+    }
+  })
+}
+
+// 获取用户信息
+export function getInfo(token) {
+  return request({
+    url: '/admin/acl/index/info',
+    method: 'get',
+    params: { token }
+  })
+}
+
+// 登出
+export function logout() {
+  //debugger
+  return request({
+    url: '/admin/acl/index/logout',
     method: 'post'
+  })
+}
+
+// 获取菜单权限数据
+export function getMenu() {
+  return request({
+    url: '/admin/acl/index/menu',
+    method: 'get'
   })
 }
