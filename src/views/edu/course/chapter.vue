@@ -101,11 +101,15 @@
             :on-success="handleVodUploadSuccess"
             :on-remove="handleVodRemove"
             :before-remove="beforeVodRemove"
+            :on-progress="uploadVideoProcess"
             :on-exceed="handleUploadExceed"
             :file-list="fileList"
             :action="BASE_API"
+            multiple
             :limit="1"
+            :on-preview="handlePreview"
             class="upload-demo">
+          
         <el-button size="small" type="primary">上传视频</el-button>
         <el-tooltip placement="right-end">
             <div slot="content">最大支持1G，<br>
@@ -161,7 +165,8 @@ export default {
       },
       dialogChapterFormVisible: false, //章节弹框
       dialogVideoFormVisible: false, //小节弹框
-      saveVideoBtnDisabled: false
+      saveVideoBtnDisabled: true,
+    
     };
   },
   watch: {
@@ -173,10 +178,18 @@ export default {
     this.inint();
   },
   methods: {
-    handleVodUploadSuccess(response,file,flleList){
+    handleVodUploadSuccess(response,file,fileList){
+      
        this.video.videoSourceId =  response.data.videoId
        this.video.videoOriginalName = file.name
+       this.saveVideoBtnDisabled = false
+      
     },
+    uploadVideoProcess(event, file, fileList){
+       
+    },
+    handlePreview(){},
+
     //删除上传文件
     handleVodRemove(file,fileList){
        deleteVod(this.video.videoSourceId).then(res=>{
@@ -267,7 +280,9 @@ export default {
         });
         this.getChapterListInfo();
         this.dialogChapterFormVisible = false;
-        this.video ={}
+        this.video.title =""
+        this.video.isFree ='0'
+        this.fileList =[]
       });
       
     },
@@ -284,6 +299,7 @@ export default {
       //打开小节的窗口
       this.dialogVideoFormVisible =true
       this.video.chapterId = id
+    
     },
     //保存小节
     saveVideoInfo(){
@@ -296,8 +312,10 @@ export default {
            this.dialogVideoFormVisible =false
            this.chapter.title = "";
            this.chapter.sort = 0;
-            this.getChapterListInfo()
-             this.video ={}
+           this.getChapterListInfo()
+           this.video.title =""
+           this.video.isFree ='0'
+           this.fileList =[]
         })
          
     },
