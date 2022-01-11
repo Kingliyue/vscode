@@ -53,19 +53,19 @@ export const asyncRoutes = [
       {
         path: 'table',
         name: '讲师列表',
-        component: () => import('@/views/edu/teacher/list'),
+        component: () => import('@/views/edu/teacher/listTeacher'),
         meta: { title: '讲师列表', icon: 'table' }
       },
       {
         path: 'save',
         name: '添加讲师',  
-        component: () => import('@/views/edu/teacher/save'),
+        component: () => import('@/views/edu/teacher/addTeacher'),
         meta: { title: '添加讲师', icon: 'tree' }
       },
       {
         path: 'edit/:id',   
         name: 'EduTeacherEdit',
-        component: () => import('@/views/edu/teacher/save'),
+        component: () => import('@/views/edu/teacher/addTeacher'),
         meta: { title: '编辑讲师', noCache: true },
         hidden: true
       }
@@ -73,9 +73,9 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/subject',
+    path: '/edu/subject',
     component: Layout,
-    redirect: '/subject/list',
+    redirect: '/edu/subject/list',
     name: '课程分类管理',
     meta: { title: '课程分类管理', icon: 'example' },
     children: [
@@ -95,9 +95,9 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/course',
+    path: '/edu/course',
     component: Layout,
-    redirect: '/course/list',
+    redirect: '/edu/course/list',
     name: '课程管理',
     meta: { title: '课程管理', icon: 'example' },
     children: [
@@ -137,27 +137,27 @@ export const asyncRoutes = [
     ]
   },
 
-  {
-    path: '/sta',
-    component: Layout,
-    redirect: '/sta/create',
-    name: '统计分析',
-    meta: { title: '统计分析', icon: 'example' },
-    children: [
-      {
-        path: 'create',
-        name: '生成数据',
-        component: () => import('@/views/sta/create'),
-        meta: { title: '生成数据', icon: 'table' }
-      },
-      {
-        path: 'show',
-        name: '图表显示',
-        component: () => import('@/views/sta/show'),
-        meta: { title: '图表显示', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/sta',
+  //   component: Layout,
+  //   redirect: '/sta/create',
+  //   name: '统计分析',
+  //   meta: { title: '统计分析', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'create',
+  //       name: '生成数据',
+  //       component: () => import('@/views/sta/create'),
+  //       meta: { title: '生成数据', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'show',
+  //       name: '图表显示',
+  //       component: () => import('@/views/sta/show'),
+  //       meta: { title: '图表显示', icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/acl',
